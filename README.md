@@ -96,7 +96,7 @@
 
 ## 💿 快速开始
 
-1. 更改blackHode项目配置（mysql.kafka）
+1. 更改blackHode项目配置（mysql、kafka）
 2. 更改数据表配置：configure/tableConfig.json
 3. 更新数据源&数据表关系配置：configure/sourceDataMapper.json
 4. 运行blackHode项目

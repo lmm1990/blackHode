@@ -40,3 +40,4 @@ out/
 /produce-kafka-data-test/.gradle
 /produce-kafka-data-test/.idea
 /produce-kafka-data-test/build
+/gradle
