@@ -1,0 +1,36 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.github.lmm1990'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // https://mvnrepository.com/artifact/com.alibaba/fastjson
+    implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.76'
+    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter
+    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.4.3'
+// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.25'
+// https://mvnrepository.com/artifact/com.alibaba/druid
+    implementation group: 'com.alibaba', name: 'druid', version: '1.2.6'
+// https://mvnrepository.com/artifact/com.lmax/disruptor
+    implementation group: 'com.lmax', name: 'disruptor', version: '3.4.4'
+// https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
+    implementation group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.7.1'
+    // https://mvnrepository.com/artifact/io.vertx/vertx-core
+    implementation group: 'io.vertx', name: 'vertx-core', version: '4.1.0.CR2'
+}
+
+test {
+    useJUnitPlatform()
+}

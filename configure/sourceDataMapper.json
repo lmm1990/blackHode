@@ -1,0 +1,38 @@
+[
+  {
+    "tableName": "ad_space_report",
+    "dateTimeColumn": {
+      "columnName": "_current_date",
+      "dateFormat": "yyyy-MM-dd",
+      "index": 0
+    },
+    "primaryKeyList": [
+      {
+        "columnName": "_current_date",
+        "index": 0
+      },
+      {
+        "columnName": "area",
+        "index": 1
+      },
+      {
+        "columnName": "siteId",
+        "index": 2
+      },
+      {
+        "columnName": "adSpaceId",
+        "index": 3
+      }
+    ],
+    "countColumnList": [
+      {
+        "columnName": "pv",
+        "index": 4
+      },
+      {
+        "columnName": "click",
+        "index": 5
+      }
+    ]
+  }
+]

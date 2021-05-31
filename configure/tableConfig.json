@@ -1,0 +1,55 @@
+[{
+  "dbName": "statistics",
+  "tableName": "ad_space_report",
+  "tableComment": "广告位报表",
+  "tableShardingType": "MONTH",
+  "columnList": [{
+    "name": "_current_date",
+    "type": "DATE",
+    "length": 0,
+    "comment": "日期",
+    "autoIncrement": false,
+    "primaryKey": true,
+    "notNull":true
+  },{
+    "name": "area",
+    "type": "VARCHAR",
+    "length": 10,
+    "comment": "区域",
+    "autoIncrement": false,
+    "primaryKey": true,
+    "notNull":true
+  },{
+    "name": "siteId",
+    "type": "INT",
+    "length": 11,
+    "comment": "网站id",
+    "autoIncrement": false,
+    "primaryKey": true,
+    "notNull":true
+  },{
+    "name": "adSpaceId",
+    "type": "INT",
+    "length": 11,
+    "comment": "广告位id",
+    "autoIncrement": false,
+    "primaryKey": true,
+    "notNull":true
+  },{
+    "name": "pv",
+    "type": "INT",
+    "length": 11,
+    "comment": "展示数",
+    "autoIncrement": false,
+    "primaryKey": false,
+    "notNull":true
+  },{
+    "name": "click",
+    "type": "INT",
+    "length": 11,
+    "comment": "点击书",
+    "autoIncrement": false,
+    "primaryKey": false,
+    "notNull":true
+  }]
+}]

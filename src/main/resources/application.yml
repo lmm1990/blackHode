@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/statistics?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: customerUser
+    template:
+      default-topic: view_data
+
+druid:
+  #  最大连接池数量
+  max-active: 20
+  # 初始化连接池的数量
+  initial-size: 5
+  # 最小连接池 数量
+  min-idle: 2
+  # 这里建议配置为TRUE，防止取到的连接不可用
+  test-on-borrow: true9092
+  test-on-return: false
+  # 验证连接有效与否的SQL，不同的数据配置不同
+  validation-query: select
+  #通过别名的方式配置扩展插件，常用的插件有：
+  #监控统计用的filter:stat日志用的filter:log4j防御sql注入的filter:wall
+  filters: stat,slf4j,wall
+  #  配置获取连接等待超时的时间 单位毫秒
+  max-wait: 6000
