@@ -1,6 +1,6 @@
 package com.github.lmm1990.blackhode.handler.task;
 
-import com.github.lmm1990.blackhode.handler.MonitorWebVerticle;
+import com.github.lmm1990.blackhode.handler.web.MonitorWebVerticle;
 import io.vertx.core.Vertx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

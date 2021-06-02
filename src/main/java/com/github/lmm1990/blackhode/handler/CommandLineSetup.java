@@ -27,11 +27,10 @@ public class CommandLineSetup implements CommandLineRunner {
         loadTableList();
         loadSourceDataMapper();
         atuoCreateTableJob.run();
-        taskMap.forEach((k,v)->{
+        taskMap.forEach((k, v) -> {
             v.execute();
         });
     }
-
 
 
     /**
@@ -39,16 +38,16 @@ public class CommandLineSetup implements CommandLineRunner {
      */
     private void loadTableList() {
         final String tableConfigPath = String.format("%s/tableConfig.json", AppConfig.configPath);
-        JSONArray.parseArray(FileUtil.readAllText(tableConfigPath), TableConfig.class).forEach((item)->{
-            AppConfig.tableConfigMap.put(item.getTableName(),item);
+        JSONArray.parseArray(FileUtil.readAllText(tableConfigPath), TableConfig.class).forEach((item) -> {
+            AppConfig.tableConfigMap.put(item.getTableName(), item);
         });
     }
 
     /**
      * 加载数据源配置信息
-     * */
-    private void loadSourceDataMapper(){
-        final String sourceDataMapperPath = String.format("%s/sourceDataMapper.json",AppConfig.configPath);
+     */
+    private void loadSourceDataMapper() {
+        final String sourceDataMapperPath = String.format("%s/sourceDataMapper.json", AppConfig.configPath);
         AppConfig.sourceDataMapperList = JSONArray.parseArray(FileUtil.readAllText(sourceDataMapperPath), SourceData.class);
     }
 }
