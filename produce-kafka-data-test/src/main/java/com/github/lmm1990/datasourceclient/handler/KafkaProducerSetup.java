@@ -40,12 +40,13 @@ public class KafkaProducerSetup implements CommandLineRunner {
         NewTopic topic = new NewTopic(AppConfig.topicName, AppConfig.partitionCount, (short) 1);
         adminClient.createTopics(Arrays.asList(topic));
 
-        int dayCount = 20;
+        int dayCount = 5;
         int threadCount = 8;
         CountDownLatch countDownLatch = new CountDownLatch(dayCount*4);
         ExecutorService executor = new ThreadPoolExecutor(threadCount, threadCount,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>());
+        executor.execute(new Boss(countDownLatch));
 
         Date date = new Date();
         String dateStr;
@@ -69,7 +70,6 @@ public class KafkaProducerSetup implements CommandLineRunner {
             executor.execute(w4);
             date = DateUtil.addDays(date,1).getTime();
         }
-        executor.execute(new Boss(countDownLatch));
         executor.shutdown();
         Scanner scanner=new Scanner(System.in);
         System.out.println("Pless presss any key to continue.");

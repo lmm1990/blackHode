@@ -45,6 +45,11 @@ public class TableColumn {
      * */
     private boolean notNull;
 
+    /**
+     * 默认值
+     * */
+    private String defaultValue;
+
     public String getName() {
         return name;
     }
@@ -107,5 +112,13 @@ public class TableColumn {
 
     public void setNotNull(boolean notNull) {
         this.notNull = notNull;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

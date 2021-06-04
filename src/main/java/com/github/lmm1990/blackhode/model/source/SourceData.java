@@ -23,9 +23,13 @@ public class SourceData {
     private List<SourceColumn> primaryKeyList;
 
     /**
-     * 统计数量的列列表
+     * 数量统计列表
      * */
     private List<SourceColumn> countColumnList;
+    /**
+     * uv统计列表
+     * */
+    private List<SourceColumn> uvColumnList;
 
     public String getTableName() {
         return tableName;
@@ -57,5 +61,13 @@ public class SourceData {
 
     public void setCountColumnList(List<SourceColumn> countColumnList) {
         this.countColumnList = countColumnList;
+    }
+
+    public List<SourceColumn> getUvColumnList() {
+        return uvColumnList;
+    }
+
+    public void setUvColumnList(List<SourceColumn> uvColumnList) {
+        this.uvColumnList = uvColumnList;
     }
 }

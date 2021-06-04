@@ -33,6 +33,12 @@
         "columnName": "click",
         "index": 5
       }
+    ],
+    "uvColumnList": [
+      {
+        "columnName": "uv",
+        "index": 6
+      }
     ]
   }
 ]

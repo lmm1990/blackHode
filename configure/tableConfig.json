@@ -18,7 +18,8 @@
     "comment": "区域",
     "autoIncrement": false,
     "primaryKey": true,
-    "notNull":true
+    "notNull":true,
+    "defaultValue": "''"
   },{
     "name": "siteId",
     "type": "INT",
@@ -26,7 +27,8 @@
     "comment": "网站id",
     "autoIncrement": false,
     "primaryKey": true,
-    "notNull":true
+    "notNull":true,
+    "defaultValue": "0"
   },{
     "name": "adSpaceId",
     "type": "INT",
@@ -34,7 +36,8 @@
     "comment": "广告位id",
     "autoIncrement": false,
     "primaryKey": true,
-    "notNull":true
+    "notNull":true,
+    "defaultValue": "0"
   },{
     "name": "pv",
     "type": "INT",
@@ -42,14 +45,25 @@
     "comment": "展示数",
     "autoIncrement": false,
     "primaryKey": false,
-    "notNull":true
+    "notNull":true,
+    "defaultValue": "0"
   },{
     "name": "click",
     "type": "INT",
     "length": 11,
-    "comment": "点击书",
+    "comment": "点击数",
     "autoIncrement": false,
     "primaryKey": false,
-    "notNull":true
+    "notNull":true,
+    "defaultValue": "0"
+  },{
+    "name": "uv",
+    "type": "INT",
+    "length": 11,
+    "comment": "用户数",
+    "autoIncrement": false,
+    "primaryKey": false,
+    "notNull":true,
+    "defaultValue": "0"
   }]
 }]

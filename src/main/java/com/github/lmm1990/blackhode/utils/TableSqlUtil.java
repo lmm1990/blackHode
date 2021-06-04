@@ -5,9 +5,12 @@ import com.github.lmm1990.blackhode.model.InsertToDbTableData;
 import com.github.lmm1990.blackhode.model.table.TableColumn;
 import com.github.lmm1990.blackhode.model.table.TableConfig;
 import com.github.lmm1990.blackhode.model.table.TableShardingType;
+import com.github.lmm1990.blackhode.service.TableService;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * 数据表sql工具类
@@ -86,6 +89,9 @@ public class TableSqlUtil {
             columnSql.append("AUTO_INCREMENT ");
         }
         columnSql.append(column.isNotNull() ? "NOT NULL " : "NULL ");
+        if(column.getDefaultValue()!=null){
+            columnSql.append(String.format("DEFAULT %s ",column.getDefaultValue()));
+        }
         if (!column.getComment().isBlank()) {
             columnSql.append(String.format("COMMENT '%s'", column.getComment()));
         }
@@ -139,5 +145,74 @@ public class TableSqlUtil {
         sql.delete(sql.length()-1,sql.length());
         sql.append(")");
         return sql.toString();
+    }
+
+    /**
+     * 每次插入数据的行数
+     */
+    private static final int everyTimeInsertRowCount = 500;
+
+    /**
+     * 格式化插入数据
+     */
+    public static void insertDataToDb(Collection<InsertToDbTableData> tableDataList,TableService tableService) {
+        int[] count = new int[]{0};
+        StringBuilder insertData = new StringBuilder();
+        for (InsertToDbTableData tableData : tableDataList) {
+            TableConfig tableConfig = TableSqlUtil.getTableConfigByTableName(tableData.getTableName());
+            tableData.getRowDataMap().forEach((primaryKeyData, columnValue) -> {
+                //先记录主键列数据
+                insertData.append(String.format("('%s',", primaryKeyData));
+                tableConfig.getColumnList().forEach((column) -> {
+                    //记录统计列数据
+                    if (!column.isPrimaryKey()) {
+                        insertData.append(String.format("%d,", columnValue.getOrDefault(column.getName(), 0L)));
+                    }
+                });
+                insertData.delete(insertData.length() - 1, insertData.length());
+                insertData.append("),");
+                count[0]++;
+                if (count[0] == everyTimeInsertRowCount) {
+                    insertDataToDb(tableConfig, tableData.getTableName(), insertData,tableService);
+                    count[0] = 0;
+                    insertData.delete(0, insertData.length());
+                }
+            });
+
+            //数据表剩余数据入库
+            if (insertData.length() > 0) {
+                insertDataToDb(tableConfig, tableData.getTableName(), insertData,tableService);
+                count[0] = 0;
+                insertData.delete(0, insertData.length());
+            }
+        }
+    }
+
+    /**
+     * 插入数据到数据库
+     */
+    private static void insertDataToDb(TableConfig tableConfig, String finalTableName, StringBuilder insertData, TableService tableService) {
+        insertData.delete(insertData.length() - 1, insertData.length());
+
+        StringBuilder insertSql = new StringBuilder();
+        insertSql.append(TableSqlUtil.generateInsertSqlField(tableConfig, finalTableName));
+        insertSql.append(String.format(" values%s ON DUPLICATE KEY UPDATE ", insertData));
+
+        tableConfig.getColumnList().forEach((item) -> {
+            if (item.isPrimaryKey()) {
+                return;//continue
+            }
+            //uv统计字段，uv数需要覆盖
+            if(AppConfig.uvFieldMap.getOrDefault(tableConfig.getTableName(),new HashSet<>()).contains(item.getName())){
+                insertSql.append(String.format("%s=VALUES(%s),", item.getName(), item.getName()));
+            }else if (!item.isPrimaryKey()) {
+                insertSql.append(String.format("%s=%s+VALUES(%s),", item.getName(), item.getName(), item.getName()));
+            }
+        });
+        //删除最后一个,
+        insertSql.delete(insertSql.length() - 1, insertSql.length());
+
+        //入库
+        tableService.insert(insertSql.toString());
     }
 }

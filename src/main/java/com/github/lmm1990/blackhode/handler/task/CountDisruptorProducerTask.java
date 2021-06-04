@@ -2,10 +2,10 @@ package com.github.lmm1990.blackhode.handler.task;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.lmm1990.blackhode.handler.AppConfig;
-import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.CountEvent;
-import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.CountEventFactory;
-import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.CountEventHandler;
-import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.CountEventProducer;
+import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.Event;
+import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.EventFactory;
+import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.EventHandler;
+import com.github.lmm1990.blackhode.handler.disruptor.countDisruptor.EventProducer;
 import com.github.lmm1990.blackhode.utils.LogUtil;
 import com.lmax.disruptor.ExceptionHandler;
 import com.lmax.disruptor.dsl.Disruptor;
@@ -20,21 +20,21 @@ public class CountDisruptorProducerTask implements ITask {
     @Override
     public void execute() {
         // The factory for the event
-        CountEventFactory factory = new CountEventFactory();
+        EventFactory factory = new EventFactory();
 
         // Specify the size of the ring buffer, must be power of 2.
         int bufferSize = 1024*8;
 
         // Construct the Disruptor
-        Disruptor<CountEvent> disruptor = new Disruptor<>(factory, bufferSize, DaemonThreadFactory.INSTANCE);
+        Disruptor<Event> disruptor = new Disruptor<>(factory, bufferSize, DaemonThreadFactory.INSTANCE);
 
         // Connect the handler
-        disruptor.handleEventsWith(new CountEventHandler());
+        disruptor.handleEventsWith(new EventHandler());
 
         //记录disruptor 错误日志
         disruptor.setDefaultExceptionHandler(new ExceptionHandler<>() {
             @Override
-            public void handleEventException(Throwable ex, long sequence, CountEvent event) {
+            public void handleEventException(Throwable ex, long sequence, Event event) {
                 LogUtil.error(String.format("countEventProducer.handleEventException event:%s", JSONObject.toJSONString(event)),ex);
             }
 
@@ -48,6 +48,6 @@ public class CountDisruptorProducerTask implements ITask {
                 LogUtil.error("countEventProducer.handleOnShutdownException",ex);
             }
         });
-        AppConfig.countEventProducer = new CountEventProducer(disruptor.start());
+        AppConfig.eventProducer = new EventProducer(disruptor.start());
     }
 }

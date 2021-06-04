@@ -2,6 +2,7 @@ package com.github.lmm1990.blackhode.handler;
 
 import com.github.lmm1990.blackhode.utils.ConcurrentHashMapUtil;
 import com.github.lmm1990.blackhode.utils.LogUtil;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -82,14 +83,20 @@ public class KafkaConsumerClient extends Thread {
         while (true) {
             if (MonitorDataHandler.runingState != 1) {
                 consumer.close();
-                LogUtil.info(String.format("topic:%s partition:%s consumer stoped",topicName,partitionId));
+                LogUtil.info(String.format("topic:%s partition:%s consumer stoped", topicName, partitionId));
                 break;
             }
             int day = (int) (System.currentTimeMillis() / AppConfig.dayMilliseconds);
-            consumer.poll(Duration.ofSeconds(5)).forEach(record -> {
-                AppConfig.countEventProducer.onData(record.value());
-                ConcurrentHashMapUtil.add(MonitorDataHandler.kafkaConsumeCount, day, 1);
+            ConsumerRecords<String, String> data = consumer.poll(Duration.ofSeconds(5));
+            int count[] =new int[]{0};
+            data.forEach(record -> {
+                count[0]++;
             });
+            ConcurrentHashMapUtil.add(MonitorDataHandler.kafkaConsumeCount, day, count[0]);
+            data.forEach(record -> {
+                AppConfig.eventProducer.onData(record.value());
+            });
+            data = null;
             consumer.commitAsync();
         }
     }

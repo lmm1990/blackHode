@@ -43,4 +43,14 @@ public class MonitorDataHandler {
      * 统计数量map[天,数量]
      * */
     public static ConcurrentHashMap<Integer,AtomicLong> statisticsCount = new ConcurrentHashMap<>();
+
+    /**
+     * uv数据统计数量map[天,数量]
+     * */
+    public static ConcurrentHashMap<Integer,AtomicLong> uvDataStatisticsCount = new ConcurrentHashMap<>();
+
+    /**
+     * uv数据入redis数量map[天,数量]
+     * */
+    public static ConcurrentHashMap<Integer,AtomicLong> uvDataToRedisCount = new ConcurrentHashMap<>();
 }

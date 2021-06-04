@@ -24,6 +24,7 @@
 6. disruptor
 7. spring-kafka
 8. vertx-core
+9. spring-boot-starter-data-redis
 
 ## 📖 文档
 
@@ -41,19 +42,21 @@
   /* 数据表字段列表 */
   "columnList": [{
     /* 列名 */
-    "name": "_current_date",
+    "name": "area",
     /* 数据类型：CHAR、VARCHAR、TEXT、TIMESTAMP、DATETIME、DATE、TIME、INT、FLOAT*/
-    "type": "DATE",
+    "type": "VARCHAR",
     /* 长度 */
-    "length": 0,
+    "length": 10,
     /* 列备注 */
-    "comment": "日期",
+    "comment": "区域",
     /* 是否是自增列，自增列必须是主键 */
     "autoIncrement": false,
     /* 是否是主键列 */
     "primaryKey": true,
     /* 是否不为空 */
-    "notNull":true
+    "notNull":true,
+    /* 默认值，无默认值可不填 */
+    "defaultValue": ""
   }]
 }]
 ```
@@ -83,13 +86,22 @@
         "index": 0
       }
     ],
-    /* 数据统计列列表 */
+    /* 数量统计列表 */
     "countColumnList": [
       {
         /* 列名 */
         "columnName": "pv",
         /* 字段对应的数据源，行数据的下标 */
         "index": 4
+      }
+    ],
+    /* uv统计列表 */
+    "uvColumnList": [
+      {
+        /* 列名 */
+        "columnName": "uv",
+        /* 字段对应的数据源，行数据的下标 */
+        "index": 6
       }
     ]
   }
@@ -98,7 +110,8 @@
 
 ## 💿 快速开始
 
-1. 更改blackHode项目配置（mysql、kafka）
+1. 更改blackHode项目配置（mysql、kafka、redis）
+2. redis需要单独分配一个db
 2. 更改数据表配置：configure/tableConfig.json
 3. 更新数据源&数据表关系配置：configure/sourceDataMapper.json
 4. 运行blackHode项目
@@ -106,7 +119,9 @@
 ## 🎯 线路图
 
 - [X] 停止统计时防止数据丢失
-- [ ] 支持UV统计
+- [X] 支持UV统计
+- [ ] 支持故障恢复
+- [ ] 支持pulsar
 - [ ] 支持分布式统计
 
 ## 🎁 致谢

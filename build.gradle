@@ -29,6 +29,9 @@ dependencies {
     implementation group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.7.1'
     // https://mvnrepository.com/artifact/io.vertx/vertx-core
     implementation group: 'io.vertx', name: 'vertx-core', version: '4.1.0.CR2'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.5.0'
+
 }
 
 test {

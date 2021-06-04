@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 @Component
@@ -49,5 +50,13 @@ public class CommandLineSetup implements CommandLineRunner {
     private void loadSourceDataMapper() {
         final String sourceDataMapperPath = String.format("%s/sourceDataMapper.json", AppConfig.configPath);
         AppConfig.sourceDataMapperList = JSONArray.parseArray(FileUtil.readAllText(sourceDataMapperPath), SourceData.class);
+        AppConfig.sourceDataMapperList.forEach((item) -> {
+            if (!AppConfig.uvFieldMap.containsKey(item.getTableName())) {
+                AppConfig.uvFieldMap.put(item.getTableName(), new HashSet<>());
+            }
+            item.getUvColumnList().forEach((column) -> {
+                AppConfig.uvFieldMap.get(item.getTableName()).add(column.getColumnName());
+            });
+        });
     }
 }

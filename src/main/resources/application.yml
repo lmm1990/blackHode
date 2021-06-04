@@ -11,7 +11,12 @@ spring:
       group-id: customerUser
     template:
       default-topic: view_data
-
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: root
+    connect-timeout: 3000
+    database: 0
 druid:
   #  最大连接池数量
   max-active: 20
